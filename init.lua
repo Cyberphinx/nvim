@@ -19,14 +19,21 @@ require('plug') -- Plugins
 
 -- nvim-tree setup
 require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    dotfiles = true,
-  },
-})
+    sort_by = "case_sensitive",
+    view = {
+      width = 40,
+    },
+    renderer = {
+      group_empty = true,
+    },
+    filters = {
+      dotfiles = true,
+    },
+    diagnostics = {
+      enable = true,
+      show_on_dirs = true,
+    },
+  })
 
 -- Mason Setup
 require("mason").setup({
@@ -38,6 +45,7 @@ require("mason").setup({
     }
   }
 })
+
 require("mason-lspconfig").setup()
 
 -- Theme Setup
@@ -95,21 +103,6 @@ vim.cmd([[
 set signcolumn=yes
 autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
 ]])
-
-
-
--- Lsp status bar
-local lsp_status = require('lsp-status')
-lsp_status.register_progress()
-
-local lspconfig = require('lspconfig')
-
--- Some arbitrary servers
-lspconfig.rust_analyzer.setup({
-  on_attach = lsp_status.on_attach,
-  capabilities = lsp_status.capabilities
-})
-
 
 
 -- Completion Plugin Setup

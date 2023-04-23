@@ -10,13 +10,10 @@ return require('packer').startup(function(use)
   use 'simrat39/rust-tools.nvim'
 
   -- Lsp-status for displaying status bar
-  use 'nvim-lua/lsp-status.nvim'
+  -- use 'nvim-lua/lsp-status.nvim'
 
   -- lualine statusline
-  use({
-    'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-  })
+  use 'nvim-lualine/lualine.nvim'
 
   -- Treesitter
   use 'nvim-treesitter/nvim-treesitter'
@@ -88,25 +85,10 @@ return require('packer').startup(function(use)
   use 'nvim-tree/nvim-web-devicons'
 
   -- File explorer
-  use {
-    'nvim-tree/nvim-tree.lua',
-    config = function()
-      require("nvim-tree").setup {}
-    end
-  }
+  use 'nvim-tree/nvim-tree.lua'
 
   -- trouble diagnostics
-  use {
-    "folke/trouble.nvim",
-    requires = "nvim-tree/nvim-web-devicons",
-    config = function()
-      require("trouble").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
-    end
-  }
+  use 'folke/trouble.nvim'
 
   -- todo comments
   use {
