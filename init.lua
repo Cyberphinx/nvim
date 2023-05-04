@@ -27,7 +27,7 @@ require("nvim-tree").setup({
       group_empty = true,
     },
     filters = {
-      dotfiles = true,
+      dotfiles = false,
     },
     diagnostics = {
       enable = true,
@@ -46,12 +46,14 @@ require("mason").setup({
   }
 })
 
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup{
+    auomatic_installation = true;
+}
 
 -- Theme Setup
 -- vim.cmd[[colorscheme tokyonight-moon]]
--- vim.cmd('colorscheme rose-pine')
-vim.cmd('colorscheme rose-pine-moon')
+vim.cmd('colorscheme rose-pine')
+-- vim.cmd('colorscheme rose-pine-moon')
 -- vim.cmd('colorscheme rose-pine-dawn')
 -- vim.cmd.colorscheme "catppuccin-macchiato"
 
@@ -69,6 +71,79 @@ rt.setup({
     end,
   },
 })
+
+
+
+-- LSP config
+local lspconfig = require('lspconfig')
+--Enable (broadcasting) snippet capability for completion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+lspconfig.html.setup ({
+    capabilities = capabilities,
+})
+lspconfig.cssls.setup({
+    capabilities = capabilities,
+})
+
+lspconfig.tsserver.setup ({
+    capabilities = capabilities,
+})
+
+lspconfig.svelte.setup ({
+    capabilities = capabilities,
+})
+
+-- lspconfig.eslint.setup({
+--   --- ...
+--   on_attach = function(client, bufnr)
+--     vim.api.nvim_create_autocmd("BufWritePre", {
+--       buffer = bufnr,
+--       command = "EslintFixAll",
+--     })
+--   end,
+-- })
+
+-- Global mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<space>f', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
+
+
 
 
 -- LSP Diagnostics Options Setup
@@ -125,7 +200,7 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Insert,
+      behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     })
   },
@@ -164,13 +239,14 @@ cmp.setup({
 local rainbow = require 'ts-rainbow'
 --
 require('nvim-treesitter.configs').setup {
-  ensure_installed = { "lua", "rust", "toml", "svelte", "typescript", "javascript", "html", "css" },
+  ensure_installed = { "lua", "rust", "toml", "svelte", "typescript", "javascript", "html", "css", "tsx", "yaml", "json" },
   auto_install = true,
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
   },
-  ident = { enable = true },
+  autotag = { enable = true },
+  indent = { enable = true },
   rainbow = {
     enable = true,
     extended_mode = true,
@@ -188,7 +264,7 @@ require('nvim-treesitter.configs').setup {
       'TSRainbowViolet',
       'TSRainbowCyan'
     },
-  }
+  },
 }
 
 -- Telescope Setup
@@ -266,7 +342,7 @@ require('Comment').setup()
 
 -- indent blank line
 vim.opt.list = true
-vim.opt.listchars:append "space:⋅"
+-- vim.opt.listchars:append "space:⋅"
 -- vim.opt.listchars:append "eol:↴"
 require("indent_blankline").setup {
   space_char_blankline = " ",
