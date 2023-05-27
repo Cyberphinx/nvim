@@ -198,32 +198,32 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
 vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
+    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    callback = function(ev)
     -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-    -- Buffer local mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
-  end,
+        -- Buffer local mappings.
+        -- See `:help vim.lsp.*` for documentation on any of the below functions
+        local opts = { buffer = ev.buf }
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+        vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+        vim.keymap.set('n', '<space>wl', function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, opts)
+        vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+        vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', '<space>f', function()
+          vim.lsp.buf.format { async = true }
+        end, opts)
+     end,
 })
 
 
@@ -322,21 +322,21 @@ cmp.setup({
       vim.fn["vsnip#anonymous"](args.body)
     end,
   },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    -- Add tab support
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-    ['<Tab>'] = cmp.mapping.select_next_item(),
-    ['<C-S-f>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    })
-  },
+    mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        -- Add tab support
+        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+        ['<Tab>'] = cmp.mapping.select_next_item(),
+        ['<C-S-f>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Insert,
+          select = true,
+        })
+      },
   -- Installed sources:
     sources = {
         { name = 'path' },                         -- file paths
@@ -528,28 +528,19 @@ require('nvim-autopairs').setup()
 -- Comment
 require('Comment').setup()
 
--- -- indent blank line
--- vim.cmd [[highlight IndentBlanklineIndent1 guibg=#191724 gui=nocombine]]
--- vim.cmd [[highlight IndentBlanklineIndent2 guibg=#16141f gui=nocombine]]
-
-
 vim.opt.list = true
 -- vim.opt.listchars:append "space:⋅"
 -- vim.opt.listchars:append "eol:↴"
+vim.cmd [[highlight IndentBlanklineIndent1 guifg=#282828 gui=nocombine]]
+
 require("indent_blankline").setup {
+    -- char = " ",
+    char_highlight_list = {
+        "IndentBlanklineIndent1",
+    },
     space_char_blankline = " ",
     show_current_context = true,
     show_current_context_start = false,
-    char = "",
-    -- char_highlight_list = {
-    --     "IndentBlanklineIndent1",
-    --     "IndentBlanklineIndent2",
-    -- },
-    -- space_char_highlight_list = {
-    --     "IndentBlanklineIndent1",
-    --     "IndentBlanklineIndent2",
-    -- },
-    show_trailing_blankline_indent = false,
 }
 
 
