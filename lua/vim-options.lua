@@ -5,6 +5,17 @@ vim.cmd("set shiftwidth=4")
 
 -- LEADER
 vim.g.mapleader = " " -- works across all nvim files
+
+vim.opt.smartindent = true
+
+vim.opt.nu = true
+vim.opt.relativenumber = true
+
+vim.opt.colorcolumn = "80"
+
+-- show telescope on start up
+-- vim.cmd [[autocmd VimEnter * Telescope find_files]]
+
 -- Copy Paste
 vim.cmd([[
 " " Copy to clipboard
