@@ -14,7 +14,7 @@ vim.opt.relativenumber = true
 vim.opt.colorcolumn = "80"
 
 -- show telescope on start up
-vim.cmd([[autocmd VimEnter * Telescope find_files]])
+-- vim.cmd([[autocmd VimEnter * Telescope find_files]])
 
 -- Copy Paste
 vim.cmd([[
@@ -29,3 +29,5 @@ nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 ]])
+
+vim.keymap.set("n", "U", '<C-R>', {noremap = true})
